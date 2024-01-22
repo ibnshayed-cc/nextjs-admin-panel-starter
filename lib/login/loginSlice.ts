@@ -14,9 +14,8 @@ const initialState: LoginSlice = {
 export const loginSlice = createSlice({
   name: 'login',
   initialState,
-  reducers: {
-    
-    login: (state, action) => {
+  reducers: {    
+    login: (state, action: PayloadAction<LoginSlice>) => {
       state.email= action.payload.email
       state.password= action.payload.password
     },

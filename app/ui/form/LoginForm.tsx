@@ -1,5 +1,6 @@
 "use client";
-import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { login } from "@/lib/login/loginSlice";
 import { RootState } from "@/lib/store";
 import {
   Card,
@@ -8,14 +9,23 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
+import { useState } from "react";
 
 export function LoginForm() {
-    const loginData = useAppSelector((state:RootState) => state.loginData)
-console.log(loginData)
-    // const submitHandler = (e) =>{
-        
-    // }
-    
+  const loginData = useAppSelector((state: RootState) => state.loginData);
+  const dispatch = useAppDispatch();
+  const [loginFormData, setLoginFormData] = useState(loginData);
+
+  const onChangeHandler = (e) => {
+    setLoginFormData({ ...loginFormData, [e.target.name]: e.target.value });
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    console.log(loginFormData);
+    dispatch(login(loginFormData));
+  };
+
   return (
     <Card color="transparent" shadow={false}>
       <Typography variant="h4" color="blue-gray">
@@ -24,7 +34,10 @@ console.log(loginData)
       <Typography color="gray" className="mt-1 font-normal">
         Nice to meet you! Enter your details to singin.
       </Typography>
-      <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
+      <form
+        onSubmit={submitHandler}
+        className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
+      >
         <div className="mb-1 flex flex-col gap-6">
           <Typography variant="h6" color="blue-gray" className="-mb-3">
             Your Email
@@ -36,6 +49,9 @@ console.log(loginData)
             labelProps={{
               className: "before:content-none after:content-none",
             }}
+            name="email"
+            value={loginFormData.email}
+            onChange={(e) => onChangeHandler(e)}
           />
           <Typography variant="h6" color="blue-gray" className="-mb-3">
             Password
@@ -48,6 +64,9 @@ console.log(loginData)
             labelProps={{
               className: "before:content-none after:content-none",
             }}
+            name="password"
+            value={loginFormData.password}
+            onChange={(e) => onChangeHandler(e)}
           />
         </div>
         <Checkbox
@@ -68,7 +87,7 @@ console.log(loginData)
           }
           containerProps={{ className: "-ml-2.5" }}
         />
-        <Button className="mt-6" fullWidth>
+        <Button className="mt-6" fullWidth type="submit">
           sign in
         </Button>
       </form>
