@@ -1,4 +1,6 @@
 "use client";
+import { useAppSelector } from "@/lib/hooks";
+import { RootState } from "@/lib/store";
 import {
   Card,
   Input,
@@ -8,6 +10,12 @@ import {
 } from "@material-tailwind/react";
 
 export function LoginForm() {
+    const loginData = useAppSelector((state:RootState) => state.loginData)
+console.log(loginData)
+    // const submitHandler = (e) =>{
+        
+    // }
+    
   return (
     <Card color="transparent" shadow={false}>
       <Typography variant="h4" color="blue-gray">
