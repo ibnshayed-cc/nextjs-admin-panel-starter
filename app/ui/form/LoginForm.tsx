@@ -8,6 +8,7 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
+import { signIn } from "next-auth/react";
 
 export function LoginForm() {
     const loginData = useAppSelector((state:RootState) => state.loginData)
@@ -72,6 +73,7 @@ console.log(loginData)
           sign in
         </Button>
       </form>
+      <Button onClick={()=> signIn()}>Github Login</Button>
     </Card>
   );
 }

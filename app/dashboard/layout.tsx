@@ -2,8 +2,15 @@ import React from "react";
 import Sidebar from "../ui/Sidebar";
 import Header from "../ui/Header";
 import { SidebarOne } from "../ui/SidebarOne";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
-function DashboardLayout({ children }: { children: React.ReactNode }) {
+
+async function DashboardLayout ({ children }: { children: React.ReactNode }) {
+  const session = await getServerSession ();
+  if(!session || !session.user){
+    redirect("/")
+  }
   return (
     <div className="flex">
       <SidebarOne />
